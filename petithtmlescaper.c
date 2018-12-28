@@ -60,6 +60,10 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
                     memcpy(dst, "&#39;", 5);
                     dst += 5;
                     break;
+                case '/':
+                    memcpy(dst, "&#x2F;", 6);
+                    dst += 6;
+                    break;
                 case '`':
                     // For IE. IE interprets back-quote as valid quoting characters
                     // ref: https://rt.cpan.org/Public/Bug/Display.html?id=84971
@@ -100,13 +104,13 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
     const char *ptr = input, *end = input + input_size;
     const static int pp[UCHAR_MAX+1] = {
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,4,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,2,0,
+        0,0,4,0,0,0,1,5,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,3,0,2,0,
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,8,0,0
+        7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,9,0,0
         /* following zero(s) */
     };
-    const static char* dd[] = {NULL, "&amp;", "&gt;", "&lt;", "&quot;", "&#39;", "&#96;", "&#123;", "&#125;"};
-    const static int dl[] = {0, 5, 4, 4, 6, 5, 5, 6, 6};
+    const static char* dd[] = {NULL, "&amp;", "&gt;", "&lt;", "&quot;", "&#39;", "&#x2F;", "&#96;", "&#123;", "&#125;"};
+    const static int dl[] = {0, 5, 4, 4, 6, 5, 6, 5, 6, 6};
 #define _ESC_AND_COPY(d,s,n) { memcpy(d,s,n); d += n; }
     while (ptr < end) {
         unsigned char c = *ptr++;
