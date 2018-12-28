@@ -40,13 +40,14 @@ void chars (void) {
     ok_escape("`",  "&#96;");
     ok_escape("{",  "&#123;");
     ok_escape("}",  "&#125;");
+    ok_escape("/",  "&#x2F;");
     ok_escape("no included html special chars", "no included html special chars");
 }
 
 void mixed (void) {
     ok_escape(
             "'`><script type=\"text/javascript\">{{alert(1)}}</script>&",
-            "&#39;&#96;&gt;&lt;script type=&quot;text/javascript&quot;&gt;&#123;&#123;alert(1)&#125;&#125;&lt;/script&gt;&amp;"
+            "&#39;&#96;&gt;&lt;script type=&quot;text&#x2F;javascript&quot;&gt;&#123;&#123;alert(1)&#125;&#125;&lt;&#x2F;script&gt;&amp;"
             );
     ok_escape(
             "aaaaaaaaaaaaaaaaa{aaaaaaaaaaaaaaaaa}aaaaaaaaaaaaaaaaa",
@@ -63,12 +64,12 @@ void mixed (void) {
             "</body>",
             "&lt;body&gt;\n" \
             "&lt;div&gt;\n" \
-            "    &lt;h1&gt;Example Domain&lt;/h1&gt;\n" \
+            "    &lt;h1&gt;Example Domain&lt;&#x2F;h1&gt;\n" \
             "    &lt;p&gt;This domain is established to be used for illustrative examples in documents. You may use this\n" \
-            "    domain in examples without prior coordination or asking for permission.&lt;/p&gt;\n" \
-            "    &lt;p&gt;&lt;a href=&quot;http://www.iana.org/domains/example&quot;&gt;More information...&lt;/a&gt;&lt;/p&gt;\n" \
-            "&lt;/div&gt;\n" \
-            "&lt;/body&gt;"
+            "    domain in examples without prior coordination or asking for permission.&lt;&#x2F;p&gt;\n" \
+            "    &lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.iana.org&#x2F;domains&#x2F;example&quot;&gt;More information...&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;\n" \
+            "&lt;&#x2F;div&gt;\n" \
+            "&lt;&#x2F;body&gt;"
             );
 }
 
